@@ -1,0 +1,10 @@
+public interface VectorADT
+{
+  public Vector add(Vector a);
+  public Vector multiply(double r);
+  public Vector subtract(Vector a);
+  public boolean equal(Vector a);
+  public double scalar(Vector a);
+  public double magnitude();
+  public String toString();
+}
