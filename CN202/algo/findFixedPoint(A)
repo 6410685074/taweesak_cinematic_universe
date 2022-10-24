@@ -1,0 +1,19 @@
+Algorithm findFixedPoint(A)
+  Input: an ordered array A of n integers whose values are distinct
+         (that is for i != j, A[i] != A[j])
+  Output: return true if there is an index i such that A[i] == i
+          return false, otherwise
+
+low = 0;
+high = n-1;
+while (low <= high)
+{
+  mid = (low+high)/2;
+  if (a[mid] == mid)
+    return true;
+  else if (a[mid] > mid)
+    high = mid-1; // consider lower half
+  else
+    low = mid+1;  // consider upper half
+}
+return false;
