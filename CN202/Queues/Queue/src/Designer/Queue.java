@@ -1,0 +1,55 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Designer;
+/**
+ *
+ * @author augus
+ */
+public class Queue implements QueueADT
+{
+  // instance variables
+  private Object[] queArray;
+  private int nItems;
+  private int front;
+  private int rear;
+
+  // constructors
+  public Queue(int maxSize)
+  { queArray = new Object[maxSize];
+    nItems = 0; front = 0; rear = -1;
+  }
+  public Queue()
+  { this(100); }
+
+  // methods
+  public void insert(Object o) throws QueueFullException
+  { if (nItems == queArray.length)
+      throw new QueueFullException("Queue is full");
+    rear = (rear + 1) % queArray.length;
+    queArray[rear] = o;
+    nItems++;
+  }
+
+  public int size()
+  { return nItems; }
+
+  public boolean isEmpty()
+  { return (nItems == 0); }
+
+  public Object remove() throws QueueEmptyException
+  { if (isEmpty())
+      throw new QueueEmptyException("Queue is empty");
+    Object temp = queArray[front];
+    front = (front + 1) % queArray.length;
+    nItems--;
+    return temp;
+  }
+
+  public Object front() throws QueueEmptyException
+  { if (isEmpty())
+      throw new QueueEmptyException("Queue is empty");
+    return queArray[front];
+  }
+}
