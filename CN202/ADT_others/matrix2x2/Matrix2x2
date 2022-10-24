@@ -1,0 +1,93 @@
+public class Matrix2x2 implements Matrix2x2ADT {
+
+  private double a00, a01, a10, a11;
+
+  public Matrix2x2(double a00Val, double a01Val, double a10Val, double a11Val)
+  {
+    a00 = a00Val; a01 = a01Val; a10 = a10Val; a11 = a11Val;
+  }
+
+  public double getElem(int i, int j) throws IndexOutOfBoundsException
+  {
+    if ((i==0) && (j==0))
+      return a00;
+    else if ((i==0) && (j==1))
+      return a01;
+    else if ((i==1) && (j==0))
+      return a10;
+    else if ((i==1) && (j==1))
+      return a11;
+    else
+      throw new IndexOutOfBoundsException("Invalid index");
+  }
+  public boolean equals(Matrix2x2 b)
+  { return ((a00 == b.getElem(0,0)) && (a01 == b.getElem(0,1)) &&
+            (a10 == b.getElem(1,0)) && (a11 == b.getElem(1,1)));      
+  }
+  public Matrix2x2 transpose()
+  {
+    return new Matrix2x2(a00, a10, a01, a11);
+  }
+  public Matrix2x2 add(Matrix2x2 b)
+  {
+    return new Matrix2x2(a00+b.getElem(0,0), a01+b.getElem(0,1),
+                         a10+b.getElem(1,0), a11+b.getElem(1,1));
+  }
+  public Matrix2x2 multiply(double c)
+  {
+    return new Matrix2x2(c*a00, c*a01, c*a10, c*a11);
+  }
+  public Matrix2x2 multiply(Matrix2x2 b)
+  {
+    double c00, c01, c10, c11;
+    c00 = a00 * b.getElem(0,0) + a01 * b.getElem(1,0);
+    c01 = a00 * b.getElem(0,1) + a01 * b.getElem(1,1);
+    c10 = a10 * b.getElem(0,0) + a11 * b.getElem(1,0);
+    c11 = a10 * b.getElem(0,1) + a11 * b.getElem(1,1);
+    return new Matrix2x2(c00,c01,c10,c11);
+  }
+  public double det()
+  {
+    return (a00*a11 - a10 * a01);
+  }
+  public double cofactor(int i, int j) throws IndexOutOfBoundsException
+  {
+    double temp;
+    if ((i==0) && (j==0))
+      temp = a11;
+    else if ((i==0) && (j==1))
+      temp = -a10;
+    else if ((i==1) && (j==0))
+      temp = -a01;
+    else if ((i==1) && (j==1))
+      temp = a00;
+    else
+      throw new IndexOutOfBoundsException("Invalid index");     
+    return temp;
+  }
+  public Matrix2x2 adjoint()
+  {
+    double b00, b01, b10, b11;
+    b00 = cofactor(0,0);
+    b01 = cofactor(0,1);
+    b10 = cofactor(1,0);
+    b11 = cofactor(1,1);
+    Matrix2x2 b = new Matrix2x2(b00,b01,b10,b11);
+    return b.transpose();
+  }
+  public boolean isSingular()
+  {
+    return (det() == 0);
+  }
+  public Matrix2x2 inverse()
+  {
+    if (isSingular())
+      return null; 
+    Matrix2x2 b = adjoint();
+    return b.multiply(1/det());
+  }
+  public String toString()
+  {
+    return a00 + " " + a01 + "\n" + a10 + " " + a11;
+  }
+}
