@@ -1,0 +1,5 @@
+public class ZeroDenomException extends RuntimeException
+{
+  public ZeroDenomException(String err)
+  { super(err); }
+}
