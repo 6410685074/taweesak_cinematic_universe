@@ -1,0 +1,94 @@
+public class Matrix2x2 implements Matrix2x2ADT {
+
+  private double[][] a;
+
+  public Matrix2x2(double a00Val, double a01Val, double a10Val, double a11Val)
+  {
+    a = new double[2][2];
+    a[0][0] = a00Val; a[0][1] = a01Val; a[1][0] = a10Val; a[1][1] = a11Val;
+  }
+
+  public double getElem(int i, int j) throws IndexOutOfBoundsException
+  {
+    if ((i==0) && (j==0))
+      return a[0][0];
+    else if ((i==0) && (j==1))
+      return a[0][1];
+    else if ((i==1) && (j==0))
+      return a[1][0];
+    else if ((i==1) && (j==1))
+      return a[1][1];
+    else
+      throw new IndexOutOfBoundsException("Invalid index");
+  }
+  public boolean equals(Matrix2x2 b)
+  { return ((a[0][0] == b.getElem(0,0)) && (a[0][1] == b.getElem(0,1)) &&
+            (a[1][0] == b.getElem(1,0)) && (a[1][1] == b.getElem(1,1)));      
+  }
+  public Matrix2x2 transpose()
+  {
+    return new Matrix2x2(a[0][0], a[1][0], a[0][1], a[1][1]);
+  }
+  public Matrix2x2 add(Matrix2x2 b)
+  {
+    return new Matrix2x2(a[0][0]+b.getElem(0,0), a[0][1]+b.getElem(0,1),
+                         a[1][0]+b.getElem(1,0), a[1][1]+b.getElem(1,1));
+  }
+  public Matrix2x2 multiply(double c)
+  {
+    return new Matrix2x2(c*a[0][0], c*a[0][1], c*a[1][0], c*a[1][1]);
+  }
+  public Matrix2x2 multiply(Matrix2x2 b)
+  {
+    double c00, c01, c10, c11;
+    c00 = a[0][0] * b.getElem(0,0) + a[0][1] * b.getElem(1,0);
+    c01 = a[0][0] * b.getElem(0,1) + a[0][1] * b.getElem(1,1);
+    c10 = a[1][0] * b.getElem(0,0) + a[1][1] * b.getElem(1,0);
+    c11 = a[1][0] * b.getElem(0,1) + a[1][1] * b.getElem(1,1);
+    return new Matrix2x2(c00,c01,c10,c11);
+  }
+  public double det()
+  {
+    return (a[0][0]*a[1][1] - a[1][0] * a[0][1]);
+  }
+  public double cofactor(int i, int j) throws IndexOutOfBoundsException
+  {
+    double temp;
+    if ((i==0) && (j==0))
+      temp = a[1][1];
+    else if ((i==0) && (j==1))
+      temp = -a[1][0];
+    else if ((i==1) && (j==0))
+      temp = -a[0][1];
+    else if ((i==1) && (j==1))
+      temp = a[0][0];
+    else
+      throw new IndexOutOfBoundsException("Invalid index");     
+    return temp;
+  }
+  public Matrix2x2 adjoint()
+  {
+    double b00, b01, b10, b11;
+    b00 = cofactor(0,0);
+    b01 = cofactor(0,1);
+    b10 = cofactor(1,0);
+    b11 = cofactor(1,1);
+    Matrix2x2 b = new Matrix2x2(b00,b01,b10,b11);
+    return b.transpose();
+  }
+  public boolean isSingular()
+  {
+    return (det() == 0);
+  }
+  public Matrix2x2 inverse()
+  {
+    if (isSingular())
+      return null; 
+    Matrix2x2 b = adjoint();
+    return b.multiply(1/det());
+  }
+  public String toString()
+  {
+    return a[0][0] + " " + a[0][1] + "\n" + a[1][0] + " " + a[1][1];
+  }
+}
