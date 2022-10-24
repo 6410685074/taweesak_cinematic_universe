@@ -1,0 +1,11 @@
+public class VectorApp
+{
+  public static void main(String[] args)
+  {
+    Vector A = new Vector(3, 4);
+    Vector B = new Vector(2, 1);
+    Vector C = new Vector(5, 12);
+    double X = (C.multiply(A.scalar(B))).magnitude();
+    System.out.println("X = " + X);
+  }
+}
