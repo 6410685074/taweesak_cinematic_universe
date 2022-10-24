@@ -1,0 +1,21 @@
+Algorithm findLowerBound(x, A)
+  Input: (1) An ordered array A of n distinct numbers
+         (2) A number x
+  Output: The index k such that x <= A[k] or -1 if there is no such k
+
+low = 0;
+high = n-1;
+
+while (low < high)
+{ 
+  mid = (low + high)/2;
+  if (x <= A[mid])
+    high = mid;
+  else
+    low = mid + 1;
+}
+
+if (x <= A[low])
+  return low;
+else
+  return -1;
