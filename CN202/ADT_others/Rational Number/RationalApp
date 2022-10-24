@@ -1,0 +1,21 @@
+import java.math.BigInteger;
+
+public class RationalApp
+{
+  public static void main(String[] args)
+  {
+    Rational sum = new Rational(); // initialize sum to 0;
+    for (int i=1; i<100; i++)
+    { 
+      BigInteger numerBigInt =
+          new BigInteger(Integer.toString(i));
+      BigInteger denomBigInt =
+          new BigInteger(Integer.toString(i+1));      
+      sum = sum.add(new Rational(numerBigInt, denomBigInt));
+      // sum.reduce();
+      // System.out.println("i = " + i + " sum = " + sum);
+    }
+    sum.reduce();
+    System.out.println("sum = " + sum);
+  }
+}
