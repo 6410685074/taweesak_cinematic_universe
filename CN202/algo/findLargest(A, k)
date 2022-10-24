@@ -1,0 +1,8 @@
+Algorithm findLargest(A, k)
+  Input: a circularly ordered array A of n distinct integers, an integer k
+  Output: return the largest value in A
+
+if (k == 0)
+  return a[n-1];
+else
+  return a[k-1];
