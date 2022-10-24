@@ -1,0 +1,15 @@
+import java.math.BigInteger;
+
+public interface RationalADT
+{
+  public BigInteger numer();
+  public BigInteger denom();
+  public Rational add(Rational r);
+  public Rational subtract(Rational r);
+  public Rational multiply(Rational r);
+  public Rational divide(Rational r) throws ZeroRationalException;
+  public Rational negate();
+  public Rational invert() throws ZeroRationalException;
+  public void reduce();
+  public String toString();
+}
