@@ -1,0 +1,23 @@
+Algorithm findLargest(A)
+  Input: a circularly ordered array A of n distinct integers
+  Output: return the largest value in A
+
+low = 0;
+high = n - 1;
+
+// do binary search when more than
+// 2 elements are left to consider
+while ((high-low) > 1)
+{
+   mid = (low+high)/2;
+   if (a[low] < a[mid])
+      low = mid;  // cannot be "low=mid+1" since a[mid] could be the largest
+   else if (a[low] > a[mid])
+      high = mid - 1;
+}
+if (low == high) // only one element left
+   return a[low];
+else if (a[low] < a[high]) // two elements left
+   return a[high];
+else
+   return a[low];
