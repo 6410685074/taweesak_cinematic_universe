@@ -26,3 +26,4 @@ Algorithm findSum(A, z)
      right--
   }
   return false
+//O(n)
