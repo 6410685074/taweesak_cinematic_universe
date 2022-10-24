@@ -1,0 +1,74 @@
+import java.math.BigInteger;
+
+public class Rational implements RationalADT
+{
+  private BigInteger n; // numerator
+  private BigInteger d; // denominator
+
+  public Rational()
+  { n = new BigInteger("0");
+    d = new BigInteger("1");
+  }
+  public Rational(BigInteger a, BigInteger b)
+      throws ZeroDenomException
+  { if (b.equals(BigInteger.ZERO))
+      throw new ZeroDenomException("Denominator is zero.");
+    n = a; d = b;
+  }
+  public BigInteger numer()
+  { return n;
+  }
+  public BigInteger denom()
+  { return d;
+  }
+  public Rational add(Rational r)
+  {
+    BigInteger numer =
+         (n.multiply(r.denom())).add(d.multiply(r.numer()));
+    BigInteger denom =
+         (d.multiply(r.denom()));
+    return new Rational(numer, denom);
+  }
+  public Rational subtract(Rational r)
+  {
+    BigInteger numer =
+         (n.multiply(r.denom())).subtract(d.multiply(r.numer()));
+    BigInteger denom =
+         (d.multiply(r.denom()));
+    return new Rational(numer, denom);
+  }
+  public Rational multiply(Rational r)
+  {
+    BigInteger numer = n.multiply(r.numer());
+    BigInteger denom = n.multiply(r.denom());
+    return new Rational(numer, denom);
+  }
+  public Rational divide(Rational r)
+    throws ZeroRationalException
+  {
+    if ((r.numer()).equals(BigInteger.ZERO))
+      throw new ZeroRationalException("Divisor is zero.");
+    BigInteger numer = n.multiply(r.denom());
+    BigInteger denom = d.multiply(r.numer());
+    return new Rational(numer, denom);
+  }
+  public Rational negate()
+  { return new Rational(n.negate(), d);
+  }
+  public Rational invert() throws ZeroRationalException
+  { if (n.equals(BigInteger.ZERO))
+      throw new ZeroRationalException("Rational is zero");
+    return new Rational(d, n);
+  }
+  public void reduce()
+  {
+    // find gcd(n, d) = a
+    BigInteger a = n.gcd(d);
+
+    n = n.divide(a);
+    d = d.divide(a);
+  }
+  public String toString()
+  { return n.toString() + "/" + d.toString();
+  }  
+}
