@@ -1,0 +1,28 @@
+Algorithm findSum(A, z)
+  Input: an ordered array A of n integers, an integer z
+  Output: return true if there are i and j (i != j) such that A[i] + A[j] == z
+          return false, otherwise
+  Note that: This version is provided by Niranrith Saingern (CN #1) 4510520077.
+             His algorithm performs in O(n) [better than my solution].
+
+  left = 0
+  right = n-1
+  while (left < right)
+  {
+     while (A[left] + A[right] >= z)
+     {
+        if (A[left] + A[right] == z)
+         return true
+        right--
+     }
+     left++
+
+     while ((A[left] + A[right] <= z) && (left < right))
+     {
+        if (A[left] + A[right] == z)
+         return true
+        left++
+     }
+     right--
+  }
+  return false
