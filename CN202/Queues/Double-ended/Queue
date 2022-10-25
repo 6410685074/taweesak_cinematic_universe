@@ -1,0 +1,44 @@
+public class Queue implements QueueADT
+{
+  // instance variables
+  private Node front;
+  private Node rear;
+  private int nItems;
+
+  // constructor
+  public Queue()
+  { front = null; rear = null; nItems = 0;
+  }
+
+  // methods
+  public void insert(Object anObj)
+  { Node newNode = new Node(anObj, null);
+    if (isEmpty())
+      front = newNode;
+    else
+      rear.setNext(newNode);
+    rear = newNode;
+    nItems++;
+  }
+  public int size()
+  { return nItems;
+  }
+  public boolean isEmpty()
+  { return (nItems == 0);
+  }
+  public Object remove() throws QueueEmptyException
+  { if (isEmpty())
+      throw new QueueEmptyException("Queue is empty.");
+    Object theItem = front.getItem();
+    front = front.getNext();
+    if (front == null)
+      rear = null;
+    nItems--;
+    return theItem; 
+  }
+  public Object front() throws QueueEmptyException
+  { if (isEmpty())
+      throw new QueueEmptyException("Queue is empty.");
+    return front.getItem();   
+  }
+}
