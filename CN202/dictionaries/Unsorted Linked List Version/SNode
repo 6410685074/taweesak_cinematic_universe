@@ -1,0 +1,19 @@
+
+// node class for singly linked lists
+
+public class SNode
+{
+  private DictionaryItem item;
+  private SNode next;
+
+  public SNode(DictionaryItem anItem, SNode aNext)
+  { item = anItem; next = aNext; }
+  public DictionaryItem getItem()
+  { return item; }
+  public SNode getNext()
+  { return next; }
+  public void setItem(DictionaryItem newItem)
+  { item = newItem; }
+  public void setNext(SNode newNext)
+  { next = newNext; }
+}
