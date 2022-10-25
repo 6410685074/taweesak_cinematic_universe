@@ -1,0 +1,62 @@
+public class Dictionary implements DictionaryADT
+{
+  // using an unsorted linked list to store
+  // data items in the dictionary
+  private SNode first;
+  private int nItems;
+
+  // implementation of methods & constructors
+  public Dictionary()
+  {
+    first = null;
+    nItems = 0;
+  }
+  public DictionaryItem find(Object key)
+  {
+    SNode current = first;
+    while (current != null)
+    {
+      DictionaryItem currentItem = current.getItem();
+      if (currentItem.compareTo(key) == 0)
+        return currentItem;
+      current = current.getNext();
+    }
+    return null;
+  }
+  public void insert(DictionaryItem newItem)
+  {
+    SNode newNode = new SNode(newItem, first);
+    first = newNode;
+    nItems++;
+  }
+  public boolean delete(Object key)
+  {
+    SNode current = first;
+    SNode previous = first;
+    while (current != null)
+    { 
+      DictionaryItem currentItem = current.getItem();
+      if (currentItem.compareTo(key) == 0)
+      { if (current == first)
+          first = first.getNext();
+        else
+          previous.setNext(current.getNext());
+        nItems--;
+        return true;
+      }   
+      previous = current;
+      current = current.getNext();     
+    }
+    return false;
+  }
+  public void display()
+  { 
+    SNode current = first;
+    while (current != null)
+    { 
+      DictionaryItem currentItem = current.getItem();
+      System.out.println(currentItem);
+      current = current.getNext();
+    }
+  }  
+}
