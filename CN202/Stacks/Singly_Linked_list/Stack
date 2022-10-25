@@ -1,0 +1,37 @@
+public class Stack implements StackADT
+{ 	
+  // instance variables
+  private Node top;
+  private int nItems;
+
+  // constructor
+  public Stack()
+  { top = null; nItems = 0;  }
+
+  // methods
+  public int size()  { return nItems;  }
+
+  public boolean isEmpty()  { return (nItems == 0);  }
+
+  public Object top() throws StackEmptyException
+  { if (isEmpty())
+       throw new StackEmptyException("Stack is empty.");
+    return top.getItem();
+  }
+
+  public void push(Object anObj)
+  {
+    Node newNode = new Node(anObj, top);
+    top = newNode;
+    nItems++;
+  }
+
+  public Object pop() throws StackEmptyException
+  {
+    if (isEmpty()) throw new StackEmptyException("Stack is empty.");
+    Object theItem = top.getItem();
+    top = top.getNext();
+    nItems--;
+    return theItem;
+  }
+}
