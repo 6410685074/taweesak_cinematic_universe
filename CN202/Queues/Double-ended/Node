@@ -1,0 +1,17 @@
+public class Node
+{
+  // instance variables
+  private Object item;
+  private Node next;
+
+  // constructor
+  public Node(Object itemVal, Node nextVal)
+  { item = itemVal; next = nextVal; }
+
+  // get-set methods
+  public Object getItem() { return item; }
+  public Node getNext() { return next; }
+
+  public void setItem(Object newItemVal) { item = newItemVal; }
+  public void setNext(Node newNextVal) { next = newNextVal; }
+}
