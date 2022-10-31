@@ -1,0 +1,12 @@
+public interface DoubleStackADT
+{ public void pushA(Object o);
+  public void pushB(Object o);
+  public Object popA() throws DoubleStackEmptyException;
+  public Object popB() throws DoubleStackEmptyException;
+  public int sizeA();
+  public int sizeB();
+  public boolean isEmptyA();
+  public boolean isEmptyB();
+  public Object topA() throws DoubleStackEmptyException;
+  public Object topB() throws DoubleStackEmptyException;
+}
