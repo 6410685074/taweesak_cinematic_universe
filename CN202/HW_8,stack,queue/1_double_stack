@@ -1,0 +1,96 @@
+
+public interface DoubleStackADT
+{ public void pushA(Object o);
+  public void pushB(Object o);
+  public Object popA() throws DoubleStackEmptyException;
+  public Object popB() throws DoubleStackEmptyException;
+  public int sizeA();
+  public int sizeB();
+  public boolean isEmptyA();
+  public boolean isEmptyB();
+  public Object topA() throws DoubleStackEmptyException;
+  public Object topB() throws DoubleStackEmptyException;
+}
+
+
+public class DoubleStack implements DoubleStackADT
+{
+  // instance variables
+  private Object[] item;
+  private int topA;
+  private int topB;
+
+  // constructors
+  public DoubleStack(int maxSize)
+  {
+    item = new Object[maxSize];
+    topA = -1;
+    topB = maxSize;
+  }
+  public DoubleStack()
+  {
+    this(100); // maxSize = 100 by default 
+  }
+  // methods
+  private boolean isFull()
+  { return ((topA + 1) == topB);
+  }
+  public void pushA(Object o) throws DoubleStackFullException
+  {
+    if (isFull())
+     throw new DoubleStackFullException("Double stack is full.");
+    item[++topA] = o;
+  }
+  public void pushB(Object o) throws DoubleStackFullException
+  {
+    if (isFull())
+     throw new DoubleStackFullException("Double stack is full.");
+    item[--topB] = o;
+  }
+  public Object popA() throws DoubleStackEmptyException
+  {
+    if (isEmptyA())
+     throw new DoubleStackEmptyException("Double stack is empty.");
+    return item[topA--];
+  }
+  public Object popB() throws DoubleStackEmptyException
+  {
+    if (isEmptyB())
+     throw new DoubleStackEmptyException("Double stack is empty.");
+    return item[topB++];
+  }
+  public int sizeA()
+  { return (topA+1); }
+  public int sizeB()
+  { return (item.length-topB); }
+  public boolean isEmptyA()
+  { return (topA == -1); }
+  public boolean isEmptyB()
+  { return (topB == item.length); }
+  public Object topA() throws DoubleStackEmptyException
+  {
+    if (isEmptyA())
+     throw new DoubleStackEmptyException("Double stack is empty.");
+    return item[topA];
+  }
+  public Object topB() throws DoubleStackEmptyException
+  {
+    if (isEmptyB())
+     throw new DoubleStackEmptyException("Double stack is empty.");
+    return item[topB];
+  }
+}
+
+
+public class DoubleStackEmptyException extends RuntimeException
+{
+  public DoubleStackEmptyException(String err)
+  { super(err); }
+}
+
+
+public class DoubleStackFullException extends RuntimeException
+{
+  public DoubleStackFullException(String err)
+  { super(err); }
+}
