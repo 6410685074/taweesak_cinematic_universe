@@ -1,0 +1,103 @@
+public interface StackADT
+{
+  public void push(Object o);
+  public Object pop() throws StackEmptyException;
+  public int size();
+  public boolean isEmpty();
+  public Object top() throws StackEmptyException;
+  public Object[] multiPop(int k)
+	throws IllegalArgumentException, StackEmptyException;
+}
+
+
+public class Stack implements StackADT
+{
+  private Object stackArray[];
+  private int top;
+
+  public Stack(int maxSize)
+  {
+    stackArray = new Object[maxSize];
+    top = -1;
+  }
+  public Stack()
+  {
+    this(100); // maxSize is 100, by default
+  }
+  public void push(Object o) throws StackFullException
+  {
+    if (size() == stackArray.length)
+     throw new StackFullException("Stack is full.");
+    stackArray[++top] = o;
+  }
+  public Object pop() throws StackEmptyException
+  {
+    if (isEmpty())
+     throw new StackEmptyException("Stack is empty.");
+    return stackArray[top--];
+  }
+  public int size()
+  {
+    return top+1;
+  }
+  public boolean isEmpty()
+  {
+    return (size() == 0);
+  }
+  public Object top() throws StackEmptyException
+  {
+    if (isEmpty())
+     throw new StackEmptyException("Stack is empty.");
+    return stackArray[top];
+  }
+  public Object[] multiPop(int k)
+    throws StackEmptyException, IllegalArgumentException
+  {
+    if (k<0)
+      throw new IllegalArgumentException(
+            "The number of items to be popped is negative");
+    Object[] temp = new Object[k];
+    for (int i=0; i<k; i++)
+      temp[i] = pop();
+    return temp;
+  }
+
+}
+
+
+public class StackEmptyException extends RuntimeException
+{
+  public StackEmptyException(String err)
+  { super(err); }
+}
+
+public class StackFullException extends RuntimeException
+{
+  public StackFullException(String err)
+  { super(err); }
+}
+
+public class StackTest
+{
+  public static void main(String[] args)
+  {
+    Stack s = new Stack();
+    int i;
+    for (i=0; i<10; i++)
+      s.push(new Integer(i));
+    Object[] x = s.multiPop(i);
+    for (i=0; i<x.length; i++)
+      System.out.print(x[i] + " ");
+    System.out.println();
+
+/* 
+    Object[] x = s.multiPop(0);
+    int i;
+    System.out.println("length of array x = " + x.length);
+    for (i=0; i<x.length; i++)
+      System.out.print(x[i] + " ");
+    System.out.println();
+*/
+
+  }
+}
