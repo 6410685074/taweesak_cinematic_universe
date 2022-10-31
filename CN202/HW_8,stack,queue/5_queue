@@ -1,0 +1,101 @@
+public interface QueueADT
+{
+  public void insert(Object o);
+  public Object remove() throws QueueEmptyException;
+  public int size();
+  public boolean isEmpty();
+  public Object front() throws QueueEmptyException;
+}
+
+
+public class Queue implements QueueADT
+{
+  // instance variables
+  private Object[] item;
+  private int nItems;
+  private int rear; // front is always at index 0
+
+  // constructors
+  public Queue(int maxSize)
+  {
+    item = new Object[maxSize];
+    rear = -1;
+    nItems = 0;
+  }
+  public Queue()
+  {
+    this(100); // maxSize = 100, by default
+  }
+  // methods
+  public int size()
+  { return nItems; }
+  private boolean isFull()
+  { return (nItems == item.length); }
+  public void insert(Object o) throws QueueFullException
+  {
+    if (isFull())
+      throw new QueueFullException("Queue is full."); 
+    item[++rear] = o;
+    nItems++;
+  }
+  public Object remove() throws QueueEmptyException
+  {
+    if (isEmpty())
+      throw new QueueEmptyException("Queue is empty.");
+    Object frontItem = item[0];
+    for (int i=1; i<size(); i++)
+      item[i-1] = item[i];
+    nItems--;
+    rear--;
+    return frontItem;
+  }
+  public boolean isEmpty()
+  { return (nItems == 0); }
+  public Object front() throws QueueEmptyException
+  {
+    if (isEmpty())
+      throw new QueueEmptyException("Queue is empty.");
+    return item[0];
+  }
+}
+
+
+public class QueueFullException extends RuntimeException
+{
+  public QueueFullException(String err)
+  { super(err); }
+}
+
+public class QueueEmptyException extends RuntimeException
+{
+  public QueueEmptyException(String err)
+  { super(err); }
+}
+
+public class QueueApp
+{
+  public static void main(String[] args)
+  {
+    Queue theQueue = new Queue(5);
+    theQueue.insert(new Integer(10));
+    theQueue.insert(new Integer(20));
+    theQueue.insert(new Integer(30));
+    theQueue.insert(new Integer(40));
+
+    theQueue.remove();
+    theQueue.remove();
+    theQueue.remove();
+
+    theQueue.insert(new Integer(50));
+    theQueue.insert(new Integer(60));
+    theQueue.insert(new Integer(70));
+    theQueue.insert(new Integer(80));
+
+    while (!theQueue.isEmpty())
+    {
+      int n = ((Integer)theQueue.remove()).intValue();
+      System.out.print(n + " ");
+    }
+    System.out.println();    
+  }
+}
