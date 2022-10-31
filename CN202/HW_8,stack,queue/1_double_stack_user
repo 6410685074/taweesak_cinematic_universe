@@ -1,0 +1,23 @@
+public class DoubleStackApp
+{
+  public static void main(String[] args)
+  {
+    DoubleStack db = new DoubleStack(50);
+    for (int i=0; i<50; i+=2)
+      db.pushA(new Integer(i));
+    for (int i=1; i<50; i+=2)
+      db.pushB(new Integer(i));
+    System.out.println("Size of stack A = " + db.sizeA());
+    System.out.println("Size of stack B = " + db.sizeB());
+    while (!db.isEmptyA() && !db.isEmptyB())
+    { System.out.print(((Integer) db.popB()).intValue() + " ");
+      System.out.println(((Integer) db.popA()).intValue());
+    }
+    while (!db.isEmptyA())
+    { System.out.print(((Integer) db.popA()).intValue());
+    }
+    while (!db.isEmptyB())
+    { System.out.print(((Integer) db.popB()).intValue());
+    } 
+  }
+}
