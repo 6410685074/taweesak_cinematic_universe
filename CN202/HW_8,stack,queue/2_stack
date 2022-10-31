@@ -1,0 +1,108 @@
+public interface StackADT
+{
+  public void push(Object o);
+  public Object pop() throws StackEmptyException;
+  public int size();
+  public boolean isEmpty();
+  public Object top() throws StackEmptyException;
+}
+
+
+public class Stack implements StackADT
+{
+  private Object stackArray[];
+  private int top;
+
+  public Stack(int maxSize)
+  {
+    stackArray = new Object[maxSize];
+    top = -1;
+  }
+  public Stack()
+  {
+    this(100); // maxSize is 100, by default
+  }
+  public void push(Object o) throws StackFullException
+  {
+    if (size() == stackArray.length)
+     throw new StackFullException("Stack is full.");
+    stackArray[++top] = o;
+  }
+  public Object pop() throws StackEmptyException
+  {
+    if (isEmpty())
+     throw new StackEmptyException("Stack is empty.");
+    return stackArray[top--];
+  }
+  public int size()
+  {
+    return top+1;
+  }
+  public boolean isEmpty()
+  {
+    return (size() == 0);
+  }
+  public Object top() throws StackEmptyException
+  {
+    if (isEmpty())
+     throw new StackEmptyException("Stack is empty.");
+    return stackArray[top];
+  }
+}
+
+
+public class StackEmptyException extends RuntimeException
+{
+  public StackEmptyException(String err)
+  { super(err); }
+}
+
+
+public class StackFullException extends RuntimeException
+{
+  public StackFullException(String err)
+  { super(err); }
+}
+
+
+public class MergeStack
+{
+  public static Stack merge(Stack A, Stack B)
+  {
+    Stack C = new Stack();
+    while (!A.isEmpty() && !B.isEmpty())
+    {
+      if (((Integer) A.top()).intValue() > 
+                    ((Integer)B.top()).intValue()) 
+        C.push(A.pop()); // A.top > B.top
+      else
+        C.push(B.pop()); // A.top <= B.top       
+    }
+    while (!A.isEmpty())
+        C.push(A.pop());
+    while (!B.isEmpty())
+        C.push(B.pop());
+    return C;
+  }
+  public static void main(String[] args)
+  {
+    Stack A = new Stack();
+    A.push(new Integer(5));
+    A.push(new Integer(10));
+    A.push(new Integer(17));
+    A.push(new Integer(31));
+    A.push(new Integer(50));
+    A.push(new Integer(96));
+
+    Stack B = new Stack();
+    B.push(new Integer(24));
+    B.push(new Integer(45));
+    B.push(new Integer(63));
+    B.push(new Integer(85));
+
+    Stack C = merge(A,B);
+    while (!C.isEmpty())
+      System.out.print(((Integer)C.pop()).intValue() + " ");
+    System.out.println();
+  }
+}
