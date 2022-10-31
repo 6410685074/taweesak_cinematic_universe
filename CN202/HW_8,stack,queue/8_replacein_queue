@@ -1,0 +1,126 @@
+public interface QueueADT
+{
+  public void insert(int o);
+  public int remove() throws QueueEmptyException;
+  public int front() throws QueueEmptyException;
+  public int size();
+  public boolean isEmpty();
+  public void replaceInQueue(int thisItem, int thatItem);
+}
+
+public class Queue implements QueueADT
+{
+  // instance variables
+  private int[] queArray;
+  private int nItems;
+  private int front;
+  private int rear;
+
+  // constructor
+  public Queue(int maxSize)
+  { queArray = new int[maxSize];
+    nItems = 0; front = 0; rear = -1;
+  }
+  public Queue()
+  { this(100); }
+
+  // methods
+  public void insert(int o) throws QueueFullException
+  { if (nItems == queArray.length)
+      throw new QueueFullException("Queue is full");
+    rear = (rear + 1) % queArray.length;
+    queArray[rear] = o;
+    nItems++;
+  }
+
+  public int size()
+  { return nItems; }
+
+  public boolean isEmpty()
+  { return (nItems == 0); }
+
+  public int remove() throws QueueEmptyException
+  { if (isEmpty())
+      throw new QueueEmptyException("Queue is empty");
+    int temp = queArray[front];
+    front = (front + 1) % queArray.length;
+    nItems--;
+    return temp;
+  }
+
+  public int front() throws QueueEmptyException
+  { if (isEmpty())
+      throw new QueueEmptyException("Queue is empty");
+    return queArray[front];
+  }
+
+  public void replaceInQueue(int thisItem, int thatItem)
+  { Queue tempQueue = new Queue();
+    while (!isEmpty())
+    {
+      int currentItem = remove();
+      if (currentItem == thisItem)
+         tempQueue.insert(thatItem);
+      else
+         tempQueue.insert(currentItem);
+    }
+    while (!tempQueue.isEmpty())
+    {
+      int currentItem = tempQueue.remove();
+      insert(currentItem);
+    }
+  }
+
+}
+
+
+public class QueueFullException extends RuntimeException
+{
+  public QueueFullException(String err)
+  { super(err); }
+}
+
+
+public class QueueEmptyException extends RuntimeException
+{
+  public QueueEmptyException(String err)
+  { super(err); }
+}
+
+
+public class QueueDataApp
+{
+  public static void main(String[] args)
+  {
+    Queue q = new Queue();
+    Queue q2 = new Queue();
+
+    q.insert(4);
+    q.insert(7);
+    q.insert(8);
+    q.insert(3);
+    q.insert(1);
+    q.insert(2);
+    q.insert(4);
+    q.insert(7);
+    q.insert(4);
+    q.insert(4);
+    q.insert(1);
+    q.insert(2);
+
+    while (!q.isEmpty())
+    {
+      int item = q.remove();
+      System.out.print(item + " ");
+      q2.insert(item);
+    }
+    System.out.println();
+    q2.replaceInQueue(4, 99);
+    while (!q2.isEmpty())
+    {
+      int item = q2.remove();
+      System.out.print(item + " ");
+    }
+    System.out.println();
+  }
+}
