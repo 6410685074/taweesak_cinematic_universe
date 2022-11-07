@@ -1,0 +1,75 @@
+public interface StackADT
+{
+  public void push(Object o);
+  public Object pop() throws StackEmptyException;
+  public int size();
+  public boolean isEmpty();
+  public Object top() throws StackEmptyException;
+}
+
+
+public class Node
+{
+  // instance variables
+  private Object item;
+  private Node next;
+
+  // constructor
+  public Node(Object itemVal, Node nextVal)
+  { item = itemVal; next = nextVal; }
+
+  // get-set methods
+  public Object getItem() { return item; }
+  public Node getNext() { return next; }
+
+  public void setItem(Object newItemVal) { item = newItemVal; }
+  public void setNextItem(Node newNextVal) { next = newNextVal; }
+}
+
+
+
+public class Stack implements StackADT
+{ 	
+  // instance variables
+  private Node top;
+  private int nItems;
+
+  // constructor
+  public Stack()
+  { top = null; nItems = 0;  }
+
+  // methods
+  public int size()  { return nItems;  }
+
+  public boolean isEmpty()  { return (nItems == 0);  }
+
+  public Object top() throws StackEmptyException
+  { if (isEmpty())
+       throw new StackEmptyException("Stack is empty.");
+    return top.getItem();
+  }
+
+  public void push(Object anObj)
+  {
+    Node newNode = new Node(anObj, top);
+    top = newNode;
+    nItems++;
+  }
+
+  public Object pop() throws StackEmptyException
+  {
+    if (isEmpty()) throw new StackEmptyException("Stack is empty.");
+    Object theItem = top.getItem();
+    top = top.getNext();
+    nItems--;
+    return theItem;
+  }
+}
+
+
+
+public class StackEmptyException extends RuntimeException
+{
+  public StackEmptyException(String err)
+  { super(err); }
+}
